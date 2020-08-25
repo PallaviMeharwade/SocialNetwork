@@ -2,11 +2,12 @@ const express = require('express');
 const db = require('../config/db');
 const UserModel = db.socialNWDB.user;
 const router = express.Router();
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
-
-router.get('/',(req,res) => {
+/*router.get('/',(req,res) => {
     res.send("auth route connection established")
-})
+})*/
 
 //@Method: POST
 //Desc: This is api will add the sign up details to database
@@ -16,11 +17,12 @@ router.post('/signup',(req,res)=>{
     //collect data from request
     let reqname = req.body.name;
     let reqemail = req.body.email;
-    let reqpassword = req.body.password;
+    let plainpassword = req.body.password;
     let reqinsta_name = req.body.insta_id;
     let reqcountry = req.body.country;
     let reqbio = req.body.bio;
     let req_user_img;
+    let reqpassword = bcrypt.hashSync(plainpassword, saltRounds);
     if(req.body.user_img){
         req_user_img = req.body.user_img
     }
@@ -59,12 +61,10 @@ router.post('/signin',(req,res)=>{
     const req_email = req.body.email;
     const req_password = req.body.password;
 
-    UserModel.findOne({where: {
-        email: req_email,
-        password: req_password
-    },raw:true})
+    UserModel.findByPk(req_email)
     .then((usersdata)=>{
-        if (usersdata){
+        console.log(usersdata.password)
+        if (bcrypt.compareSync(req_password, usersdata.password)==true){
             res.send({
                 message: "user signin successful",
                 status: 200,
@@ -80,7 +80,7 @@ router.post('/signin',(req,res)=>{
     })
     .catch((err)=>{
         res.send({
-            message: "User unable to signin",
+            message: "Invalid email-id",
             status: 500,
             err:err
         })
