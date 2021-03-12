@@ -12,6 +12,8 @@ socialNWDB.sequelizeDB = sequelize;
 socialNWDB.user = require('../model/user')(sequelize,Sequelize)
 socialNWDB.post = require('../model/post')(sequelize, Sequelize)
 socialNWDB.vote = require('../model/votes')(sequelize, Sequelize)
+socialNWDB.thought = require('../model/thought')(sequelize,Sequelize)
+socialNWDB.feedback = require('../model/feedback')(sequelize,Sequelize)
 
 
 module.exports = {

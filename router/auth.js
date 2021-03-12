@@ -37,7 +37,7 @@ router.post('/signup',(req,res)=>{
         bio: reqbio,
         user_img: req_user_img
     })
-    //feedback
+    //feedback methods
     .then(()=>{
         res.send({
             message: "User added successfully",
@@ -62,6 +62,7 @@ router.post('/signin',(req,res)=>{
     const req_password = req.body.password;
 
     UserModel.findByPk(req_email)
+    //feedback
     .then((usersdata)=>{
         console.log(usersdata.password)
         if (bcrypt.compareSync(req_password, usersdata.password)==true){

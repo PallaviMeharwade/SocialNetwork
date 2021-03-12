@@ -1,5 +1,5 @@
 const local={
-    database: 'internshipsocialnetwork',
+    database: 'dbmsapp',
     username: 'root',
     password: 'root',
     host: 'localhost',

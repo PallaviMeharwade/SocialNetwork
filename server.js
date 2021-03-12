@@ -17,13 +17,15 @@ const user = require('./router/user');
 const post = require('./router/post');
 const auth = require('./router/auth');
 const vote = require('./router/vote');
+const thought = require('./router/thought');
+const feedback = require('./router/feedback');
 
 const DB = require('./config/db');
 
 DB.socialNWDB.sequelizeDB.authenticate()
 .then(() => {
     console.log('Connection has been established successfully.');
-    DB.socialNWDB.sequelizeDB.sync({})
+    DB.socialNWDB.sequelizeDB.sync({/*force:true*/})
     .then(() => {
         console.log('tables creation successful');
       })
@@ -40,6 +42,8 @@ app.use('/api/user',user);
 app.use('/api/post',post);
 app.use('/api/auth',auth);
 app.use('/api/vote',vote);
+app.use('/api/thought',thought);
+app.use('/api/feedback',feedback);
 
 //app server
 app.listen(port, () => {
